@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cine sunt cu adevarat?</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #ffffff;
+    --bg2: #f5f5f3;
+    --bg3: #ebebea;
+    --text: #1a1a1a;
+    --text2: #6b6b6b;
+    --text3: #9b9b9b;
+    --border: rgba(0,0,0,0.12);
+    --border2: rgba(0,0,0,0.25);
+    --info-bg: #e6f1fb;
+    --info-text: #185fa5;
+    --info-border: #378add;
+    --radius: 8px;
+    --radius-lg: 12px;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #1c1c1c;
+      --bg2: #252525;
+      --bg3: #2e2e2e;
+      --text: #f0f0f0;
+      --text2: #a0a0a0;
+      --text3: #666666;
+      --border: rgba(255,255,255,0.1);
+      --border2: rgba(255,255,255,0.22);
+      --info-bg: #0c2f4e;
+      --info-text: #85b7eb;
+      --info-border: #185fa5;
+    }
+  }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: var(--bg2);
+    color: var(--text);
+    min-height: 100vh;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 3rem 1rem;
+  }
+
+  .card {
+    background: var(--bg);
+    border: 0.5px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 2.5rem;
+    width: 100%;
+    max-width: 620px;
+  }
+
+  .progress-bar {
+    width: 100%;
+    height: 3px;
+    background: var(--border);
+    border-radius: 2px;
+    margin-bottom: 2.5rem;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    background: var(--info-border);
+    border-radius: 2px;
+    transition: width 0.4s ease;
+  }
+
+  .section-label {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    color: var(--text3);
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+  }
+
+  .question-title {
+    font-size: 22px;
+    font-weight: 500;
+    color: var(--text);
+    line-height: 1.4;
+    margin-bottom: 1.75rem;
+  }
+
+  .question-subtitle {
+    font-size: 14px;
+    color: var(--text2);
+    margin-top: -1.25rem;
+    margin-bottom: 1.75rem;
+    line-height: 1.6;
+  }
+
+  .options-grid {
+    display: grid;
+    gap: 10px;
+  }
+  .cols2 { grid-template-columns: 1fr 1fr; }
+  .cols1 { grid-template-columns: 1fr; }
+
+  .option-btn {
+    background: var(--bg);
+    border: 0.5px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 14px 16px;
+    cursor: pointer;
+    text-align: left;
+    transition: border-color 0.15s, background 0.15s;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    font-family: inherit;
+    color: var(--text);
+  }
+  .option-btn:hover {
+    border-color: var(--border2);
+    background: var(--bg2);
+  }
+  .option-btn.selected {
+    border-color: var(--info-border);
+    background: var(--info-bg);
+  }
+  .option-icon {
+    font-size: 22px;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+  .opt-title {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text);
+    line-height: 1.4;
+  }
+  .opt-sub {
+    font-size: 12px;
+    color: var(--text3);
+    margin-top: 3px;
+    line-height: 1.4;
+  }
+  .option-btn.selected .opt-title { color: var(--info-text); }
+
+  textarea {
+    width: 100%;
+    min-height: 100px;
+    border: 0.5px solid var(--border);
+    border-radius: var(--radius);
+    padding: 12px 14px;
+    font-size: 15px;
+    font-family: inherit;
+    color: var(--text);
+    background: var(--bg);
+    resize: vertical;
+    line-height: 1.6;
+    outline: none;
+    transition: border-color 0.15s;
+  }
+  textarea:focus { border-color: var(--border2); }
+  textarea::placeholder { color: var(--text3); }
+
+  .scale-wrap { display: flex; align-items: center; gap: 12px; }
+  .scale-side { font-size: 13px; color: var(--text2); min-width: 90px; }
+  .scale-side.right { text-align: right; }
+  input[type=range] {
+    flex: 1;
+    accent-color: var(--info-border);
+    height: 4px;
+    cursor: pointer;
+  }
+  .scale-val {
+    font-size: 18px;
+    font-weight: 500;
+    min-width: 32px;
+    text-align: center;
+    color: var(--info-text);
+  }
+
+  .nav-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 2.5rem;
+    padding-top: 1.5rem;
+    border-top: 0.5px solid var(--border);
+  }
+  .counter { font-size: 13px; color: var(--text3); }
+  .btns { display: flex; gap: 10px; }
+
+  button {
+    padding: 9px 22px;
+    border-radius: var(--radius);
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    font-family: inherit;
+    transition: opacity 0.15s, transform 0.1s;
+  }
+  .btn-back {
+    background: transparent;
+    border: 0.5px solid var(--border2);
+    color: var(--text2);
+  }
+  .btn-back:hover { background: var(--bg2); }
+  .btn-next {
+    background: var(--text);
+    border: none;
+    color: var(--bg);
+  }
+  .btn-next:hover { opacity: 0.82; }
+  .btn-next:active { transform: scale(0.98); }
+
+  .result { display: none; }
+  .result h1 {
+    font-size: 24px;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+  }
+  .result .tagline {
+    font-size: 15px;
+    color: var(--text2);
+    margin-bottom: 2rem;
+    line-height: 1.6;
+  }
+  .result-section {
+    margin-bottom: 1.5rem;
+    padding-left: 1rem;
+    border-left: 2px solid var(--border);
+  }
+  .result-section h3 {
+    font-size: 13px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--text3);
+    margin-bottom: 0.5rem;
+  }
+  .result-section p {
+    font-size: 15px;
+    line-height: 1.7;
+    color: var(--text);
+  }
+  .result-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 8px 0;
+    border-bottom: 0.5px solid var(--border);
+    font-size: 14px;
+  }
+  .result-row .lbl { color: var(--text2); }
+  .result-row .val { color: var(--text); font-weight: 500; text-align: right; max-width: 60%; }
+  .btn-restart {
+    margin-top: 2rem;
+    background: var(--text);
+    border: none;
+    color: var(--bg);
+    padding: 10px 24px;
+  }
+  .btn-restart:hover { opacity: 0.82; }
+</style>
+</head>
+<body>
+<div class="card">
+  <div id="quiz">
+    <div class="progress-bar"><div class="progress-fill" id="prog"></div></div>
+    <div id="qarea"></div>
+    <div class="nav-row">
+      <span class="counter" id="cnt"></span>
+      <div class="btns">
+        <button class="btn-back" id="btnBack" onclick="goBack()" style="display:none">Inapoi</button>
+        <button class="btn-next" id="btnNext" onclick="goNext()">Continua</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="result" id="result">
+    <h1>Profilul tau interior</h1>
+    <p class="tagline">Pe baza raspunsurilor tale, iata ce patternuri ies la suprafata.</p>
+    <div id="result-body"></div>
+    <button class="btn-restart" onclick="restart()">Ia testul din nou</button>
+  </div>
+</div>
+
+<script>
+const questions = [
+  {
+    section: "Valorile tale de baza",
+    q: "Ce te face sa te simti cel mai viu?",
+    subtitle: "Alege ce rezoneza cel mai mult cu tine.",
+    type: "single", cols: 2, key: "viu",
+    options: [
+      { icon: "👥", title: "Conexiunile cu oamenii", sub: "Conversatii profunde, prietenii adevarate" },
+      { icon: "💡", title: "Crearea de lucruri noi", sub: "Idei, proiecte, arta, solutii" },
+      { icon: "⛰️", title: "Depasirea limitelor", sub: "Provocari, aventura, crestere" },
+      { icon: "🤝", title: "Ajutorul oferit altora", sub: "Sa faci diferenta in viata cuiva" }
+    ]
+  },
+  {
+    section: "Modul tau de a gandi",
+    q: "Cum iei de obicei deciziile importante?",
+    type: "single", cols: 2, key: "decizii",
+    options: [
+      { icon: "📊", title: "Analiza si date", sub: "Cantaresc pros si cons logic" },
+      { icon: "❤️", title: "Intuitie si emotie", sub: "Ascult ce simt in interior" },
+      { icon: "🗣️", title: "Consult oamenii", sub: "Pareri, perspective, dialog" },
+      { icon: "⏳", title: "Las lucrurile sa se aseze", sub: "Timpul clarifica totul" }
+    ]
+  },
+  {
+    section: "Relatia cu ceilalti",
+    q: "Cum te simti dupa ce petreci mult timp cu oameni?",
+    type: "single", cols: 2, key: "social",
+    options: [
+      { icon: "⚡", title: "Energizat", sub: "Ma incarc din prezenta altora" },
+      { icon: "🔋", title: "Obosit", sub: "Am nevoie de timp singur sa ma reincarc" },
+      { icon: "☯️", title: "Depinde de context", sub: "Unii imi dau energie, altii imi iau" },
+      { icon: "😐", title: "Neutru", sub: "Nu ma afecteaza in mod special" }
+    ]
+  },
+  {
+    section: "Frica ta profunda",
+    q: "Ce ti-ar fi cel mai greu sa pierzi?",
+    type: "single", cols: 2, key: "frica",
+    options: [
+      { icon: "🗝️", title: "Libertatea", sub: "Sa fii captiv, controlat, limitat" },
+      { icon: "💔", title: "Iubirea si acceptarea", sub: "Sa fii singur sau respins" },
+      { icon: "🏆", title: "Stima de sine", sub: "Sa pierzi sensul valorii personale" },
+      { icon: "🌍", title: "Impactul tau", sub: "Sa nu contezi, sa nu lasi urme" }
+    ]
+  },
+  {
+    section: "Puterea ta ascunsa",
+    q: "In ce moment ai simtit ca esti cu adevarat tu insuti?",
+    subtitle: "Descrie o situatie sau un context — poate fi scurt.",
+    type: "text", key: "putere",
+    placeholder: "Ex: cand ajut pe cineva, cand creez ceva, cand sunt in natura..."
+  },
+  {
+    section: "Relatia cu trecutul",
+    q: "Cum te raportezi la greselile tale?",
+    type: "single", cols: 1, key: "greseli",
+    options: [
+      { icon: "🔄", title: "Le transform in lectii si merg mai departe", sub: null },
+      { icon: "⚓", title: "Tind sa raman blocat in ele mai mult timp", sub: null },
+      { icon: "🙈", title: "Prefer sa nu ma gandesc la ele", sub: null },
+      { icon: "🔍", title: "Le analizez obsesiv ca sa inteleg exact ce s-a intamplat", sub: null }
+    ]
+  },
+  {
+    section: "Valorile morale",
+    q: "Ce calitate o admiri cel mai mult la un om?",
+    type: "single", cols: 2, key: "admiratie",
+    options: [
+      { icon: "🛡️", title: "Onestitatea", sub: "Spune adevarul chiar cand doare" },
+      { icon: "🫂", title: "Empatia", sub: "Simte si intelege pe ceilalti" },
+      { icon: "🔥", title: "Curajul", sub: "Actioneaza in ciuda fricii" },
+      { icon: "♾️", title: "Perseverenta", sub: "Nu renunta niciodata" }
+    ]
+  },
+  {
+    section: "Visul tau interior",
+    q: "Daca stiai sigur ca nu poti esua, ce ai face?",
+    subtitle: "Fii sincer — nu exista raspuns gresit.",
+    type: "text", key: "vis",
+    placeholder: "Scrie primul lucru care iti vine in minte..."
+  },
+  {
+    section: "Relatia cu schimbarea",
+    q: "Cat de confortabil esti cu necunoscutul?",
+    type: "scale", key: "schimbare",
+    min: 1, max: 10, leftLabel: "Il evit", rightLabel: "Il caut activ"
+  },
+  {
+    section: "Identitatea ta",
+    q: "Ce crezi ca nu inteleg ceilalti despre tine?",
+    subtitle: "Acel ceva pe care il simti dar rareori il spui cu voce tare.",
+    type: "text", key: "identitate",
+    placeholder: "Ceva ce ai vrea sa fie vazut sau inteles mai bine..."
+  }
+];
+
+const optLabels = {
+  viu: ["Conexiunile cu oamenii","Crearea de lucruri noi","Depasirea limitelor","Ajutorul oferit altora"],
+  decizii: ["Analiza si date","Intuitie si emotie","Consult oamenii","Las lucrurile sa se aseze"],
+  social: ["Energizat","Obosit","Depinde de context","Neutru"],
+  frica: ["Libertatea","Iubirea si acceptarea","Stima de sine","Impactul meu"],
+  greseli: ["Le transform in lectii","Raman blocat in ele","Prefer sa nu ma gandesc","Le analizez obsesiv"],
+  admiratie: ["Onestitatea","Empatia","Curajul","Perseverenta"]
+};
+
+let cur = 0;
+const ans = {};
+
+function render() {
+  const q = questions[cur];
+  document.getElementById('prog').style.width = Math.round(cur / questions.length * 100) + '%';
+  document.getElementById('cnt').textContent = (cur + 1) + ' / ' + questions.length;
+  document.getElementById('btnBack').style.display = cur > 0 ? '' : 'none';
+  document.getElementById('btnNext').textContent = cur === questions.length - 1 ? 'Finalizeaza' : 'Continua';
+
+  let h = '<div class="section-label">' + q.section + '</div>';
+  h += '<div class="question-title">' + q.q + '</div>';
+  if (q.subtitle) h += '<div class="question-subtitle">' + q.subtitle + '</div>';
+
+  if (q.type === 'single') {
+    h += '<div class="options-grid ' + (q.cols === 2 ? 'cols2' : 'cols1') + '">';
+    q.options.forEach((o, i) => {
+      const sel = ans[q.key] === String(i) ? ' selected' : '';
+      h += `<button type="button" class="option-btn${sel}" onclick="pick('${q.key}',${i})">`;
+      h += `<span class="option-icon">${o.icon}</span>`;
+      h += `<span><span class="opt-title">${o.title}</span>`;
+      if (o.sub) h += `<br><span class="opt-sub">${o.sub}</span>`;
+      h += '</span></button>';
+    });
+    h += '</div>';
+  } else if (q.type === 'text') {
+    h += `<textarea id="ta" placeholder="${q.placeholder}" oninput="ans['${q.key}']=this.value">${ans[q.key] || ''}</textarea>`;
+  } else if (q.type === 'scale') {
+    const v = ans[q.key] || 5;
+    h += `<div class="scale-wrap">
+      <span class="scale-side">${q.leftLabel}</span>
+      <input type="range" min="${q.min}" max="${q.max}" value="${v}" step="1"
+        oninput="ans['${q.key}']=+this.value; document.getElementById('sv').textContent=this.value">
+      <span class="scale-val" id="sv">${v}</span>
+      <span class="scale-side right">${q.rightLabel}</span>
+    </div>`;
+    if (!ans[q.key]) ans[q.key] = 5;
+  }
+
+  document.getElementById('qarea').innerHTML = h;
+}
+
+function pick(key, i) {
+  ans[key] = String(i);
+  render();
+}
+
+function goNext() {
+  const q = questions[cur];
+  if (q.type === 'text') {
+    const ta = document.getElementById('ta');
+    if (ta) ans[q.key] = ta.value;
+  }
+  if (cur < questions.length - 1) {
+    cur++;
+    render();
+  } else {
+    showResult();
+  }
+}
+
+function goBack() {
+  if (cur > 0) { cur--; render(); }
+}
+
+function getLabel(key) {
+  const q = questions.find(x => x.key === key);
+  const v = ans[key];
+  if (!v && v !== 0) return '—';
+  if (optLabels[key]) return optLabels[key][parseInt(v)] || v;
+  return v;
+}
+
+function showResult() {
+  document.getElementById('quiz').style.display = 'none';
+  const r = document.getElementById('result');
+  r.style.display = 'block';
+
+  const rows = [
+    { lbl: "Ce te face sa te simti viu", key: "viu" },
+    { lbl: "Cum iei decizii", key: "decizii" },
+    { lbl: "Dupa timp cu oameni", key: "social" },
+    { lbl: "Cel mai greu sa pierzi", key: "frica" },
+    { lbl: "Moment de autenticitate", key: "putere" },
+    { lbl: "Relatia cu greselile", key: "greseli" },
+    { lbl: "Calitate admirata", key: "admiratie" },
+    { lbl: "Daca nu poti esua", key: "vis" },
+    { lbl: "Confort cu necunoscutul", key: "schimbare" },
+    { lbl: "Ce nu inteleg ceilalti", key: "identitate" },
+  ];
+
+  let h = '<div style="margin-bottom:2rem">';
+  rows.forEach(row => {
+    h += `<div class="result-row">
+      <span class="lbl">${row.lbl}</span>
+      <span class="val">${getLabel(row.key) || '—'}</span>
+    </div>`;
+  });
+  h += '</div>';
+
+  h += `<div class="result-section">
+    <h3>Salveaza sau copiaza raspunsurile</h3>
+    <p>Aceste raspunsuri pot fi trimise unui asistent AI (ex: Claude) cu intrebarea:<br>
+    <em style="color:var(--text2)">"Pe baza acestor raspunsuri, cine sunt cu adevarat? Ce patternuri vezi?"</em></p>
+  </div>`;
+
+  document.getElementById('result-body').innerHTML = h;
+}
+
+function restart() {
+  cur = 0;
+  Object.keys(ans).forEach(k => delete ans[k]);
+  document.getElementById('result').style.display = 'none';
+  document.getElementById('quiz').style.display = 'block';
+  render();
+}
+
+render();
+</script>
+</body>
+</html>
