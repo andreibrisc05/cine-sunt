@@ -19,23 +19,22 @@
     --info-bg: #e6f1fb;
     --info-text: #185fa5;
     --info-border: #378add;
+    --success-bg: #eaf3de;
+    --success-text: #3b6d11;
+    --warn-bg: #faeeda;
+    --warn-text: #854f0b;
     --radius: 8px;
     --radius-lg: 12px;
   }
 
   @media (prefers-color-scheme: dark) {
     :root {
-      --bg: #1c1c1c;
-      --bg2: #252525;
-      --bg3: #2e2e2e;
-      --text: #f0f0f0;
-      --text2: #a0a0a0;
-      --text3: #666666;
-      --border: rgba(255,255,255,0.1);
-      --border2: rgba(255,255,255,0.22);
-      --info-bg: #0c2f4e;
-      --info-text: #85b7eb;
-      --info-border: #185fa5;
+      --bg: #1c1c1c; --bg2: #252525; --bg3: #2e2e2e;
+      --text: #f0f0f0; --text2: #a0a0a0; --text3: #666666;
+      --border: rgba(255,255,255,0.1); --border2: rgba(255,255,255,0.22);
+      --info-bg: #0c2f4e; --info-text: #85b7eb; --info-border: #185fa5;
+      --success-bg: #173404; --success-text: #c0dd97;
+      --warn-bg: #412402; --warn-text: #fac775;
     }
   }
 
@@ -47,7 +46,7 @@
     display: flex;
     align-items: flex-start;
     justify-content: center;
-    padding: 3rem 1rem;
+    padding: 2rem 1rem 4rem;
   }
 
   .card {
@@ -59,211 +58,97 @@
     max-width: 620px;
   }
 
-  .progress-bar {
-    width: 100%;
-    height: 3px;
-    background: var(--border);
-    border-radius: 2px;
-    margin-bottom: 2.5rem;
-    overflow: hidden;
-  }
-  .progress-fill {
-    height: 100%;
-    background: var(--info-border);
-    border-radius: 2px;
-    transition: width 0.4s ease;
-  }
+  .progress-bar { width:100%; height:3px; background:var(--border); border-radius:2px; margin-bottom:2.5rem; overflow:hidden; }
+  .progress-fill { height:100%; background:var(--info-border); border-radius:2px; transition:width 0.4s ease; }
 
-  .section-label {
-    font-size: 11px;
-    font-weight: 500;
-    letter-spacing: 0.08em;
-    color: var(--text3);
-    text-transform: uppercase;
-    margin-bottom: 0.5rem;
-  }
+  .section-label { font-size:11px; font-weight:500; letter-spacing:0.08em; color:var(--text3); text-transform:uppercase; margin-bottom:0.5rem; }
+  .question-title { font-size:22px; font-weight:500; color:var(--text); line-height:1.4; margin-bottom:1.75rem; }
+  .question-subtitle { font-size:14px; color:var(--text2); margin-top:-1.25rem; margin-bottom:1.75rem; line-height:1.6; }
 
-  .question-title {
-    font-size: 22px;
-    font-weight: 500;
-    color: var(--text);
-    line-height: 1.4;
-    margin-bottom: 1.75rem;
-  }
-
-  .question-subtitle {
-    font-size: 14px;
-    color: var(--text2);
-    margin-top: -1.25rem;
-    margin-bottom: 1.75rem;
-    line-height: 1.6;
-  }
-
-  .options-grid {
-    display: grid;
-    gap: 10px;
-  }
-  .cols2 { grid-template-columns: 1fr 1fr; }
-  .cols1 { grid-template-columns: 1fr; }
+  .options-grid { display:grid; gap:10px; }
+  .cols2 { grid-template-columns:1fr 1fr; }
+  .cols1 { grid-template-columns:1fr; }
 
   .option-btn {
-    background: var(--bg);
-    border: 0.5px solid var(--border);
-    border-radius: var(--radius-lg);
-    padding: 14px 16px;
-    cursor: pointer;
-    text-align: left;
-    transition: border-color 0.15s, background 0.15s;
-    display: flex;
-    align-items: flex-start;
-    gap: 12px;
-    font-family: inherit;
-    color: var(--text);
+    background:var(--bg); border:0.5px solid var(--border); border-radius:var(--radius-lg);
+    padding:14px 16px; cursor:pointer; text-align:left;
+    transition:border-color 0.15s, background 0.15s;
+    display:flex; align-items:flex-start; gap:12px; font-family:inherit; color:var(--text);
   }
-  .option-btn:hover {
-    border-color: var(--border2);
-    background: var(--bg2);
-  }
-  .option-btn.selected {
-    border-color: var(--info-border);
-    background: var(--info-bg);
-  }
-  .option-icon {
-    font-size: 22px;
-    flex-shrink: 0;
-    margin-top: 1px;
-  }
-  .opt-title {
-    font-size: 14px;
-    font-weight: 500;
-    color: var(--text);
-    line-height: 1.4;
-  }
-  .opt-sub {
-    font-size: 12px;
-    color: var(--text3);
-    margin-top: 3px;
-    line-height: 1.4;
-  }
-  .option-btn.selected .opt-title { color: var(--info-text); }
+  .option-btn:hover { border-color:var(--border2); background:var(--bg2); }
+  .option-btn.selected { border-color:var(--info-border); background:var(--info-bg); }
+  .option-icon { font-size:22px; flex-shrink:0; margin-top:1px; }
+  .opt-title { font-size:14px; font-weight:500; color:var(--text); line-height:1.4; }
+  .opt-sub { font-size:12px; color:var(--text3); margin-top:3px; line-height:1.4; }
+  .option-btn.selected .opt-title { color:var(--info-text); }
 
   textarea {
-    width: 100%;
-    min-height: 100px;
-    border: 0.5px solid var(--border);
-    border-radius: var(--radius);
-    padding: 12px 14px;
-    font-size: 15px;
-    font-family: inherit;
-    color: var(--text);
-    background: var(--bg);
-    resize: vertical;
-    line-height: 1.6;
-    outline: none;
-    transition: border-color 0.15s;
+    width:100%; min-height:100px; border:0.5px solid var(--border); border-radius:var(--radius);
+    padding:12px 14px; font-size:15px; font-family:inherit; color:var(--text);
+    background:var(--bg); resize:vertical; line-height:1.6; outline:none; transition:border-color 0.15s;
   }
-  textarea:focus { border-color: var(--border2); }
-  textarea::placeholder { color: var(--text3); }
+  textarea:focus { border-color:var(--border2); }
+  textarea::placeholder { color:var(--text3); }
 
-  .scale-wrap { display: flex; align-items: center; gap: 12px; }
-  .scale-side { font-size: 13px; color: var(--text2); min-width: 90px; }
-  .scale-side.right { text-align: right; }
-  input[type=range] {
-    flex: 1;
-    accent-color: var(--info-border);
-    height: 4px;
-    cursor: pointer;
-  }
-  .scale-val {
-    font-size: 18px;
-    font-weight: 500;
-    min-width: 32px;
-    text-align: center;
-    color: var(--info-text);
+  .scale-wrap { display:flex; align-items:center; gap:12px; }
+  .scale-side { font-size:13px; color:var(--text2); min-width:80px; }
+  .scale-side.right { text-align:right; }
+  input[type=range] { flex:1; accent-color:var(--info-border); cursor:pointer; }
+  .scale-val { font-size:18px; font-weight:500; min-width:32px; text-align:center; color:var(--info-text); }
+
+  .nav-row { display:flex; justify-content:space-between; align-items:center; margin-top:2.5rem; padding-top:1.5rem; border-top:0.5px solid var(--border); }
+  .counter { font-size:13px; color:var(--text3); }
+  .btns { display:flex; gap:10px; }
+
+  button { padding:9px 22px; border-radius:var(--radius); font-size:14px; font-weight:500; cursor:pointer; font-family:inherit; transition:opacity 0.15s, transform 0.1s; }
+  .btn-back { background:transparent; border:0.5px solid var(--border2); color:var(--text2); }
+  .btn-back:hover { background:var(--bg2); }
+  .btn-next { background:var(--text); border:none; color:var(--bg); }
+  .btn-next:hover { opacity:0.82; }
+  .btn-next:active { transform:scale(0.98); }
+
+  /* Result styles */
+  .result { display:none; }
+
+  .archetype-badge {
+    display:inline-block; padding:4px 14px; border-radius:20px;
+    font-size:12px; font-weight:500; letter-spacing:0.05em;
+    background:var(--info-bg); color:var(--info-text);
+    margin-bottom:1rem; text-transform:uppercase;
   }
 
-  .nav-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 2.5rem;
-    padding-top: 1.5rem;
-    border-top: 0.5px solid var(--border);
-  }
-  .counter { font-size: 13px; color: var(--text3); }
-  .btns { display: flex; gap: 10px; }
+  .result-headline { font-size:26px; font-weight:500; line-height:1.3; margin-bottom:0.75rem; }
+  .result-tagline { font-size:15px; color:var(--text2); line-height:1.7; margin-bottom:2rem; }
 
-  button {
-    padding: 9px 22px;
-    border-radius: var(--radius);
-    font-size: 14px;
-    font-weight: 500;
-    cursor: pointer;
-    font-family: inherit;
-    transition: opacity 0.15s, transform 0.1s;
+  .insight-block {
+    border-left:2px solid var(--border);
+    padding:0 0 0 1.25rem;
+    margin-bottom:1.75rem;
   }
-  .btn-back {
-    background: transparent;
-    border: 0.5px solid var(--border2);
-    color: var(--text2);
+  .insight-label {
+    font-size:11px; font-weight:500; letter-spacing:0.08em;
+    color:var(--text3); text-transform:uppercase; margin-bottom:0.5rem;
   }
-  .btn-back:hover { background: var(--bg2); }
-  .btn-next {
-    background: var(--text);
-    border: none;
-    color: var(--bg);
-  }
-  .btn-next:hover { opacity: 0.82; }
-  .btn-next:active { transform: scale(0.98); }
+  .insight-text { font-size:15px; line-height:1.75; color:var(--text); }
 
-  .result { display: none; }
-  .result h1 {
-    font-size: 24px;
-    font-weight: 500;
-    margin-bottom: 0.5rem;
+  .highlight-box {
+    border-radius:var(--radius); padding:1rem 1.25rem; margin-bottom:1.75rem;
+    font-size:14px; line-height:1.7;
   }
-  .result .tagline {
-    font-size: 15px;
-    color: var(--text2);
-    margin-bottom: 2rem;
-    line-height: 1.6;
-  }
-  .result-section {
-    margin-bottom: 1.5rem;
-    padding-left: 1rem;
-    border-left: 2px solid var(--border);
-  }
-  .result-section h3 {
-    font-size: 13px;
-    font-weight: 500;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    color: var(--text3);
-    margin-bottom: 0.5rem;
-  }
-  .result-section p {
-    font-size: 15px;
-    line-height: 1.7;
-    color: var(--text);
-  }
-  .result-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    padding: 8px 0;
-    border-bottom: 0.5px solid var(--border);
-    font-size: 14px;
-  }
-  .result-row .lbl { color: var(--text2); }
-  .result-row .val { color: var(--text); font-weight: 500; text-align: right; max-width: 60%; }
-  .btn-restart {
-    margin-top: 2rem;
-    background: var(--text);
-    border: none;
-    color: var(--bg);
-    padding: 10px 24px;
-  }
-  .btn-restart:hover { opacity: 0.82; }
+  .highlight-box.strength { background:var(--success-bg); color:var(--success-text); }
+  .highlight-box.watch { background:var(--warn-bg); color:var(--warn-text); }
+
+  .highlight-label { font-size:11px; font-weight:500; letter-spacing:0.06em; text-transform:uppercase; margin-bottom:0.4rem; opacity:0.8; }
+
+  .divider { border:none; border-top:0.5px solid var(--border); margin:2rem 0; }
+
+  .answers-summary { margin-bottom:2rem; }
+  .ans-row { display:flex; justify-content:space-between; align-items:baseline; padding:8px 0; border-bottom:0.5px solid var(--border); font-size:13px; }
+  .ans-lbl { color:var(--text2); }
+  .ans-val { color:var(--text); font-weight:500; text-align:right; max-width:55%; }
+
+  .btn-restart { margin-top:1.5rem; background:var(--text); border:none; color:var(--bg); }
+  .btn-restart:hover { opacity:0.82; }
 </style>
 </head>
 <body>
@@ -280,12 +165,7 @@
     </div>
   </div>
 
-  <div class="result" id="result">
-    <h1>Profilul tau interior</h1>
-    <p class="tagline">Pe baza raspunsurilor tale, iata ce patternuri ies la suprafata.</p>
-    <div id="result-body"></div>
-    <button class="btn-restart" onclick="restart()">Ia testul din nou</button>
-  </div>
+  <div class="result" id="result"></div>
 </div>
 
 <script>
@@ -403,7 +283,7 @@ function render() {
   document.getElementById('prog').style.width = Math.round(cur / questions.length * 100) + '%';
   document.getElementById('cnt').textContent = (cur + 1) + ' / ' + questions.length;
   document.getElementById('btnBack').style.display = cur > 0 ? '' : 'none';
-  document.getElementById('btnNext').textContent = cur === questions.length - 1 ? 'Finalizeaza' : 'Continua';
+  document.getElementById('btnNext').textContent = cur === questions.length - 1 ? 'Vezi analiza' : 'Continua';
 
   let h = '<div class="section-label">' + q.section + '</div>';
   h += '<div class="question-title">' + q.q + '</div>';
@@ -437,35 +317,123 @@ function render() {
   document.getElementById('qarea').innerHTML = h;
 }
 
-function pick(key, i) {
-  ans[key] = String(i);
-  render();
-}
+function pick(key, i) { ans[key] = String(i); render(); }
 
 function goNext() {
   const q = questions[cur];
-  if (q.type === 'text') {
-    const ta = document.getElementById('ta');
-    if (ta) ans[q.key] = ta.value;
-  }
-  if (cur < questions.length - 1) {
-    cur++;
-    render();
-  } else {
-    showResult();
-  }
+  if (q.type === 'text') { const ta = document.getElementById('ta'); if (ta) ans[q.key] = ta.value; }
+  if (cur < questions.length - 1) { cur++; render(); }
+  else showResult();
 }
 
-function goBack() {
-  if (cur > 0) { cur--; render(); }
-}
+function goBack() { if (cur > 0) { cur--; render(); } }
 
 function getLabel(key) {
-  const q = questions.find(x => x.key === key);
   const v = ans[key];
-  if (!v && v !== 0) return '—';
-  if (optLabels[key]) return optLabels[key][parseInt(v)] || v;
+  if (v === undefined || v === '') return null;
+  if (optLabels[key]) return optLabels[key][parseInt(v)];
   return v;
+}
+
+// ─── Analysis engine ───────────────────────────────────────────────────────
+
+function buildAnalysis() {
+  const viu = parseInt(ans.viu ?? -1);
+  const decizii = parseInt(ans.decizii ?? -1);
+  const social = parseInt(ans.social ?? -1);
+  const frica = parseInt(ans.frica ?? -1);
+  const greseli = parseInt(ans.greseli ?? -1);
+  const admiratie = parseInt(ans.admiratie ?? -1);
+  const schimbare = parseInt(ans.schimbare ?? 5);
+  const putere = ans.putere || '';
+  const vis = ans.vis || '';
+  const identitate = ans.identitate || '';
+
+  // ── Archetype detection ──
+  let archetype, headline, tagline;
+
+  if (viu === 1 && frica === 0) {
+    archetype = "Creatorul Independent";
+    headline = "Esti construit sa creezi — si sa o faci pe cont propriu.";
+    tagline = "Cel mai mare motor al tau este libertatea de a aduce lucruri noi in lume. Nu ai nevoie de permisiune si nu astepti conditii perfecte.";
+  } else if (viu === 0 && decizii === 0) {
+    archetype = "Analistul Empatic";
+    headline = "Combini mintea cu inima — si e mai rar decat crezi.";
+    tagline = "Intelegi oamenii profund si totodata gandesti clar si logic. Asta te face extraordinar de eficient in situatii complexe.";
+  } else if (viu === 2 && schimbare >= 7) {
+    archetype = "Exploratorul Curajos";
+    headline = "Traiesti cel mai bine la marginea zonei de confort.";
+    tagline = "Provocarile nu te sperie — te trezesc. Ai o capacitate naturala de a merge acolo unde altii ezita.";
+  } else if (viu === 3 && admiratie === 1) {
+    archetype = "Ghidul Empatic";
+    headline = "Puterea ta sta in capacitatea de a vedea si ajuta oamenii.";
+    tagline = "Nu esti doar bun — esti prezent. Oamenii simt asta si vin la tine tocmai pentru asta.";
+  } else if (viu === 1 && admiratie === 0) {
+    archetype = "Constructorul Onest";
+    headline = "Creezi cu integritate — si asta te diferentiaza.";
+    tagline = "Nu faci lucruri doar sa le faci. Le faci bine, cu onestitate fata de tine si fata de ceilalti.";
+  } else if (frica === 0 && schimbare >= 8) {
+    archetype = "Spiritul Liber";
+    headline = "Libertatea nu e un lux pentru tine — e oxigen.";
+    tagline = "Esti construit pentru necunoscut. Acolo unde altii vad risc, tu vezi posibilitate.";
+  } else if (decizii === 1 && social === 0) {
+    archetype = "Conectorul Intuitiv";
+    headline = "Simti oamenii inainte sa ii cunosti cu adevarat.";
+    tagline = "Intuitia ta sociala este un supraputere. Stii aproape instant daca o persoana iti ofera energie sau ti-o ia.";
+  } else if (greseli === 0 && admiratie === 3) {
+    archetype = "Omul Rezistent";
+    headline = "Greselile nu te opresc — te calibreaza.";
+    tagline = "Ai o capacitate rara de a transforma esecul in combustibil. Nu pentru ca esti insensibil, ci pentru ca ai o viziune pe termen lung.";
+  } else {
+    archetype = "Omul Complet";
+    headline = "Nu incapi intr-o singura categorie — si asta e un avantaj.";
+    tagline = "Profilul tau arata un echilibru rar intre mai multe dimensiuni. Esti flexibil, adaptabil si mai greu de citit decat crezi.";
+  }
+
+  // ── Core strength ──
+  const strengthMap = {
+    0: "Puterea ta principala este **conexiunea umana**. Stii sa creezi spatiu in care oamenii se simt vazuti si intelesi.",
+    1: "Puterea ta principala este **creativitatea**. Mintea ta produce solutii si idei acolo unde altii vad doar probleme.",
+    2: "Puterea ta principala este **rezistenta la presiune**. Cu cat situatia e mai dificila, cu atat devii mai concentrat.",
+    3: "Puterea ta principala este **generozitatea profunda**. Nu ajuti din datorie — ajuti pentru ca asa esti construit."
+  };
+  const strength = strengthMap[viu] || "Puterea ta vine din capacitatea de a te adapta la orice context.";
+
+  // ── Shadow / blind spot ──
+  let shadow;
+  if (greseli === 3) shadow = "Tendinta de a analiza obsesiv greselile poate deveni o capcana. Intelegerea perfecta nu exista — la un moment dat, trebuie sa mergi mai departe.";
+  else if (greseli === 1) shadow = "Cand ramai blocat in greseli, energia pe care o consumi in vinovatie e energie furata din viitor. Lectia e valoroasa; autopedepsirea nu.";
+  else if (greseli === 2) shadow = "Evitarea greselilor din minte nu le face sa dispara. Uneori tocmai ce eviti sa privesti este exact ce ai nevoie sa vezi.";
+  else if (social === 1 && frica === 1) shadow = "Nevoia de solitudine combinata cu frica de a pierde iubirea poate crea un paradox interior: vrei apropierea, dar te epuizezi in ea. E important sa gasesti ritmul care ti se potriveste.";
+  else if (frica === 0 && social === 0) shadow = "Libertatea si nevoia de conexiune pot intra in tensiune. Uneori cel mai curajos lucru e sa lasi pe cineva sa te cunoasca cu adevarat.";
+  else shadow = "Oricine are un unghi mort. Al tau ar putea fi tendinta de a presupune ca ceilalti gandesc sau simt la fel ca tine.";
+
+  // ── Change profile ──
+  let changeText;
+  if (schimbare >= 8) changeText = "Esti in top 20% al celor care nu doar tolereaza schimbarea, ci o cauta activ. Asta te face extrem de adaptabil — dar uneori e nevoie si de stabilitate deliberata.";
+  else if (schimbare >= 5) changeText = "Ai un raport sanatos cu necunoscutul — il accepti fara sa il cauti neaparat. Stii cand sa avansezi si cand sa consolidezi.";
+  else changeText = "Preferi predictibilul si asta e o forta, nu o slabiciune. Construiesti temeinic, nu improvizezi haotic.";
+
+  // ── What others miss ──
+  let othersText;
+  if (identitate) {
+    othersText = `Ai spus ca ceilalti nu inteleg: <em>"${identitate}"</em>. Asta e de obicei semnul ca ai o profunzime pe care nu o arati cu usurinta. Nu pentru ca o ascunzi — ci pentru ca nu oricine merita sa o vada.`;
+  } else {
+    othersText = "Adesea, ce nu inteleg ceilalti despre noi este exact ce e mai autentic in noi. Merita sa te intrebi: ce anume ai vrea sa fie vazut mai clar?";
+  }
+
+  // ── Vision note ──
+  let visionNote = '';
+  if (vis) {
+    const visLower = vis.toLowerCase();
+    if (visLower.includes('nimic') || visLower.includes('acelasi') || visLower.includes('deja')) {
+      visionNote = `Ai raspuns la visul tau: <em>"${vis}"</em>. Asta spune ca nu traiesti in umbra fricii de esec. Traiesti deja. E unul dintre cele mai rare lucruri pe care le poti spune despre cineva.`;
+    } else {
+      visionNote = `Ai mentionat: <em>"${vis}"</em>. Intrebarea care urmeaza nu e daca poti — ci ce mai astepti?`;
+    }
+  }
+
+  return { archetype, headline, tagline, strength, shadow, changeText, othersText, visionNote };
 }
 
 function showResult() {
@@ -473,35 +441,62 @@ function showResult() {
   const r = document.getElementById('result');
   r.style.display = 'block';
 
-  const rows = [
-    { lbl: "Ce te face sa te simti viu", key: "viu" },
+  const a = buildAnalysis();
+
+  const summaryRows = [
+    { lbl: "Ce te face viu", key: "viu" },
     { lbl: "Cum iei decizii", key: "decizii" },
     { lbl: "Dupa timp cu oameni", key: "social" },
     { lbl: "Cel mai greu sa pierzi", key: "frica" },
-    { lbl: "Moment de autenticitate", key: "putere" },
     { lbl: "Relatia cu greselile", key: "greseli" },
     { lbl: "Calitate admirata", key: "admiratie" },
-    { lbl: "Daca nu poti esua", key: "vis" },
     { lbl: "Confort cu necunoscutul", key: "schimbare" },
-    { lbl: "Ce nu inteleg ceilalti", key: "identitate" },
   ];
 
-  let h = '<div style="margin-bottom:2rem">';
-  rows.forEach(row => {
-    h += `<div class="result-row">
-      <span class="lbl">${row.lbl}</span>
-      <span class="val">${getLabel(row.key) || '—'}</span>
-    </div>`;
+  let sumHtml = '<div class="answers-summary">';
+  summaryRows.forEach(row => {
+    const v = getLabel(row.key);
+    if (v) sumHtml += `<div class="ans-row"><span class="ans-lbl">${row.lbl}</span><span class="ans-val">${v}${row.key === 'schimbare' ? ' / 10' : ''}</span></div>`;
   });
-  h += '</div>';
+  sumHtml += '</div>';
 
-  h += `<div class="result-section">
-    <h3>Salveaza sau copiaza raspunsurile</h3>
-    <p>Aceste raspunsuri pot fi trimise unui asistent AI (ex: Claude) cu intrebarea:<br>
-    <em style="color:var(--text2)">"Pe baza acestor raspunsuri, cine sunt cu adevarat? Ce patternuri vezi?"</em></p>
-  </div>`;
+  r.innerHTML = `
+    <div class="archetype-badge">${a.archetype}</div>
+    <div class="result-headline">${a.headline}</div>
+    <div class="result-tagline">${a.tagline}</div>
 
-  document.getElementById('result-body').innerHTML = h;
+    <div class="highlight-box strength">
+      <div class="highlight-label">Punctul tau forte</div>
+      ${a.strength}
+    </div>
+
+    <div class="insight-block">
+      <div class="insight-label">Relatia cu schimbarea</div>
+      <div class="insight-text">${a.changeText}</div>
+    </div>
+
+    ${a.visionNote ? `<div class="insight-block">
+      <div class="insight-label">Visul tau</div>
+      <div class="insight-text">${a.visionNote}</div>
+    </div>` : ''}
+
+    <div class="insight-block">
+      <div class="insight-label">Ce nu vad ceilalti</div>
+      <div class="insight-text">${a.othersText}</div>
+    </div>
+
+    <div class="highlight-box watch">
+      <div class="highlight-label">Zona de atentie</div>
+      ${a.shadow}
+    </div>
+
+    <hr class="divider">
+
+    <div class="section-label">Raspunsurile tale</div>
+    ${sumHtml}
+
+    <button class="btn-restart btn-next" onclick="restart()">Ia testul din nou</button>
+  `;
 }
 
 function restart() {
